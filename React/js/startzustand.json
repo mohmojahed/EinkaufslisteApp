@@ -1,0 +1,59 @@
+{
+  "gruppenListe": [
+    {
+      "index": 0,
+      "name": "Obst & Gemüse",
+      "artikelListe": [
+        {
+          "name": "Brokkoli",
+          "gekauft": false,
+          "index": 0
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "name": "Getreideprodukte",
+      "artikelListe": [
+        {
+          "index": 0,
+          "name": "Reis",
+          "gekauft": false
+        },
+        {
+          "index": 1,
+          "name": "Brot",
+          "gekauft": false
+        },
+        {
+          "index": 2,
+          "name": "Nudeln",
+          "gekauft": false
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "name": "Milchprodukte",
+      "artikelListe": [
+        {
+          "index": 0,
+          "name": "Streukäse",
+          "gekauft": false
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "name": "Hülsenfrüchte",
+      "artikelListe": [
+        {
+          "index": 0,
+          "name": "Tofu",
+          "gekauft": true
+        }
+      ]
+    }
+  ],
+  "aktiveGruppe": 3
+}

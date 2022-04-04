@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Einkaufsliste</title>
+
+    <meta charset="UTF-8">
+    <meta name="author" content="Syntax Institut">
+    <meta name="copyright" content="Syntax Institut, 2022">
+    <meta name="description" content="Einkaufsliste als SPA mit Material Design und React.js">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="lib/react.development.js"></script>
+    <script src="lib/react-dom.development.js"></script>
+    <script src="lib/babel.min.js"></script>
+
+    <script src="js/Artikel.js"></script>
+    <script src="js/Gruppe.js"></script>
+    <script src="js/App.js"></script>
+
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/material-components-web.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body class="mdc-typography">
+<div id="root"></div>
+
+<script type="text/babel" src="js/ShoppingTag.js"></script>
+<script type="text/babel" src="js/GruppenTag.js"></script>
+<script type="text/babel" src="js/ArtikelTag.js"></script>
+<script type="text/babel" src="js/GruppenDialog.js"></script>
+
+<script type="text/babel">
+    ReactDOM.render(
+        <ShoppingTag/>,
+        document.querySelector('#root')
+    )
+</script>
+</body>
+</html>
