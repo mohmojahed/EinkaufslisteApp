@@ -5,7 +5,10 @@ class GruppenTag extends React.Component {
             aufgeklappt: true
         }
     }
-
+    /**
+     * entfernt Artikel aus Gruppe
+     * @param {Artikel} artikelName
+     */
     artikelEntfernen(artikel) {
         this.props.gruppe.artikelEntfernen(artikel)
         this.props.aktiveGruppeHandler(this.props.gruppe.id)

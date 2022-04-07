@@ -1,24 +1,24 @@
-
+/**
+ * Hauptkomponentenseite der App
+ */
 class ShoppingTag extends React.Component {
 
 
     constructor(props) {
-
-        let gruppe1 = App.gruppeHinzufuegen("Obst & Gemüse");
-        gruppe1.artikelHinzufuegen("Brokkoli");
-        let gruppe2 = App.gruppeHinzufuegen("Getreideprodukte");
-        gruppe2.artikelHinzufuegen("Reis");
-        gruppe2.artikelHinzufuegen("Brot");
-        gruppe2.artikelHinzufuegen("Nudeln");
-        let gruppe3 = App.gruppeHinzufuegen("Milchprodukte");
-        gruppe3.artikelHinzufuegen("Streukäse")
-        let gekaufterArtikel = gruppe3.artikelHinzufuegen("Milch")
-        gekaufterArtikel.gekauft = true
         super(props);
+        /**
+         *@type {{showGruppenDialog: boolean,
+         * erledigtAufgeklappt: boolean,
+         * aktiveGruppe: null,
+         * einkaufenAufgeklappt: boolean}}
+         */
         this.state = {
             aktiveGruppe : null,
             showGruppenDialog : false,
+            einkaufenAufgeklappt: true,
+            erledigtAufgeklappt: false
         }
+        this.startzustandLaden()
     }
     async startzustandLaden() {
         let gespeicherterZustand = localStorage.getItem(App.STORAGE_KEY)
@@ -30,6 +30,12 @@ class ShoppingTag extends React.Component {
         }
     }
 
+    /**
+     *
+     * @param gruppenId
+     */
+
+
     setAktiveGruppe(gruppenId) {
         App.aktiveGruppe = gruppenId
         const gruppe = App.gruppeFinden(gruppenId)
@@ -37,6 +43,9 @@ class ShoppingTag extends React.Component {
         this.setState({aktiveGruppe: App.aktiveGruppe})
     }
 
+    /**
+     * Methode, die den Artikel hinzufügt
+     */
     artikelHinzufuegen = () => {
 
         let eingabe = document.getElementById("artikelEingabe")
@@ -48,19 +57,20 @@ class ShoppingTag extends React.Component {
         eingabe.value = ""
         eingabe.focus()
     }
-
-    setActiveGruppe = (gruppenID) =>
-    {
-        App.aktiveGruppe = gruppenID
-        this.setState({aktiveGruppe: App.aktiveGruppe})
-        console.debug(this.state.aktiveGruppe)
-    }
-
-    artikelChecken = (artikel) =>
-    {
+    /**
+     * @param artikel
+     * Feststellen, ob der Artikel gekauft wird oder nicht
+     */
+    artikelChecken = (artikel) => {
         artikel.gekauft = !artikel.gekauft
-        this.setState(this.state)
+        const aktion = artikel.gekauft ? "erledigt" : "reaktiviert"
+        App.informieren(`[App] Artikel "${artikel.name}" ${aktion}`)
+        this.setState({state: this.state})
     }
+
+    /**
+     *
+     */
     einkaufenAufZuKlappen() {
         this.setState({einkaufenAufgeklappt: !this.state.einkaufenAufgeklappt})
     }
@@ -68,65 +78,79 @@ class ShoppingTag extends React.Component {
     erledigtAufZuKlappen() {
         this.setState({erledigtAufgeklappt: !this.state.erledigtAufgeklappt})
     }
+    gruppenDialogOpen = () => {
+        this.setState({showGruppenDialog: !this.state.showGruppenDialog})
+    }
 
     render = () => {
     return (
-        <div>
+        <div id= "container" >
           <header>
-            <h1>Einkaufsliste</h1>
-                <div id= {"hinzufeugen"}>
-                  <nav>
-                      <input id={"artikelEingabe"} type="text" placeholder="Artikel hinzufügen"
-                      onKeyPress={e => (e.key == 'Enter') ? this.artikelHinzufuegen() : ''}/>
-                      <button className="material-icons" onClick={() => this.artikelHinzufuegen()}>add_circle</button>
-                  </nav>
+            <div id="header">
+                <div>
+                    <h1>Einkaufsliste</h1>
                 </div>
+                <nav>
+                   <input type="search" id={"artikelEingabe"} type="text" placeholder="Artikel hinzufügen"
+                   onKeyPress={e => (e.key == 'Enter') ? this.artikelHinzufuegen() : ''}/>
+                   <button id={"button3"} onClick={() => this.artikelHinzufuegen()} className="material-icons">add_circle</button>
+                </nav>
+            <hr/>
+            </div>
           </header>
-          <hr/>
-
           <main>
             <section>
-              <h2>Einkaufen
-                  <i onClick={() => this.einkaufenAufZuKlappen()} className="material-icons">
-                      {this.state.einkaufenAufgeklappt ? 'expand_more' : 'expand_less'}
-                  </i>
-              </h2>
-              <dl>
-                  {this.state.einkaufenAufgeklappt
-                      ? App.gruppenListe.map(gruppe =>
-                          <GruppenTag key={gruppe.id} gruppe={gruppe} gekauft={false}
-                                      aktiv={gruppe.id == App.aktiveGruppe}
-                                      aktiveGruppeHandler={() => this.setAktiveGruppe(gruppe.id)}
-                                      checkHandler={this.artikelChecken}/>
-                      ): ''}
-              </dl>
+              <div id="subheader">
+                  <h2>Einkaufen
+                      <i onClick={() => this.einkaufenAufZuKlappen()} className="material-icons">
+                          {this.state.einkaufenAufgeklappt ? 'expand_more' : 'expand_less'}
+                      </i>
+                  </h2>
+              </div>
+              <hr/>
+              <div id="list container">
+                  <dl>
+                      {this.state.einkaufenAufgeklappt
+                          ? App.gruppenListe.map(gruppe =>
+                              <GruppenTag key={gruppe.id} gruppe={gruppe} gekauft={false}
+                                          aktiv={gruppe.id == App.aktiveGruppe}
+                                          aktiveGruppeHandler={() => this.setAktiveGruppe(gruppe.id)}
+                                          checkHandler={this.artikelChecken}
+
+                              />
+                          ):
+                          ''}
+                  </dl>
+              </div>
             </section>
             <hr/>
             <section>
-              <h2>Erledigt
-                  <i onClick={() => this.erledigtAufZuKlappen()} className="material-icons">
-                      {this.state.erledigtAufgeklappt ? 'expand_more' : 'expand_less'}
-                  </i>
-              </h2>
-                {this.state.erledigtAufgeklappt
-                    ? App.gruppenListe.map(gruppe =>
-                        <GruppenTag key={gruppe.id} gruppe={gruppe} gekauft={true}
-                                    aktiveGruppeHandler={() => this.setAktiveGruppe(gruppe.id)}
-                                    checkHandler={this.artikelChecken}/>)
-                    : ''}
+              <div  id="list container">
+                  <h2>Erledigt
+                      <i onClick={() => this.erledigtAufZuKlappen()} className="material-icons">
+                          {this.state.erledigtAufgeklappt ? 'expand_more' : 'expand_less'}
+                      </i>
+                  </h2>
+                    {this.state.erledigtAufgeklappt
+                        ? App.gruppenListe.map(gruppe =>
+                            <GruppenTag key={gruppe.id} gruppe={gruppe} gekauft={true}
+                                        aktiveGruppeHandler={() => this.setAktiveGruppe(gruppe.id)}
+                                        checkHandler={this.artikelChecken}/>)
+                        :
+                        ''}
+              </div>
             </section>
           </main>
           <hr/>
-
-          <footer>
-              <nav>
-                  <GruppenDialog visible = {this.showGruppenDialog} onDialogClose = {() => this.setState({showGruppenDialog : false})}
-                  />
-                  <button>
-                  <span className="material-icons"  onClick={() => this.setState({showGruppenDialog : true})}>bookmark_add</span>
-                  </button>
-              </nav>
-          </footer>
+            <footer id="app-footer">
+                 <button className="button3" placeholder={"Gruppen"}
+                        onClick={() => this.setState({showGruppenDialog: true})}>
+                        Gruppen
+                </button>
+            </footer>
+            <GruppenDialog  visible = {this.state.showGruppenDialog} gruppenListe={App.gruppenListe}
+                            onDialogClose = {() => this.setState({showGruppenDialog : false})}
+            />
 
         </div>
     )
