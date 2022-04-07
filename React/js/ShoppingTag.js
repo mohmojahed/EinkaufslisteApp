@@ -20,6 +20,11 @@ class ShoppingTag extends React.Component {
         }
         this.startzustandLaden()
     }
+
+    /**
+     * lädt den Anfangszustand aus dem JSON oder den gespeicherten Zustand aus dem lokalen Speicher
+     * @returns {Promise<void>}
+     */
     async startzustandLaden() {
         let gespeicherterZustand = localStorage.getItem(App.STORAGE_KEY)
         if (gespeicherterZustand) {
@@ -35,7 +40,10 @@ class ShoppingTag extends React.Component {
      * @param gruppenId
      */
 
-
+    /**
+     *  setzt die aktive Gruppe
+     * @param gruppenId
+     */
     setAktiveGruppe(gruppenId) {
         App.aktiveGruppe = gruppenId
         const gruppe = App.gruppeFinden(gruppenId)
@@ -69,17 +77,17 @@ class ShoppingTag extends React.Component {
     }
 
     /**
-     *
+     * Auf-Zu klapp den Einkaufen bereich
      */
     einkaufenAufZuKlappen() {
         this.setState({einkaufenAufgeklappt: !this.state.einkaufenAufgeklappt})
     }
 
+    /**
+     * Auf-Zu klapp den Erledigt bereich
+     */
     erledigtAufZuKlappen() {
         this.setState({erledigtAufgeklappt: !this.state.erledigtAufgeklappt})
-    }
-    gruppenDialogOpen = () => {
-        this.setState({showGruppenDialog: !this.state.showGruppenDialog})
     }
 
     render = () => {
